@@ -1,0 +1,51 @@
+class Hashmap():
+    def __init__(self):
+         self.size = 10
+         self.hashlist = [None]*self.size
+         
+    def GetIndex(self,key): 
+        return hash(key) % self.size  
+         
+    def __setitem__(self, key, value): 
+        index = self.GetIndex(key)
+        
+        if self.hashlist[index] is None:
+            self.hashlist[index] = [[key,value]]
+        else:
+            subList = self.hashlist[index]
+            for pairs in subList:
+                if pairs[0] == key:
+                    pairs[1] = value
+                    return 
+                
+            self.hashlist[index].append([key,value]) 
+            
+    def __getitem__(self,key):
+        index = self.GetIndex(key)
+        
+        if self.hashlist[index]:
+            subList = self.hashlist[index]
+            for pairs in subList:
+                if pairs[0]==key:
+                    return pairs[1]
+                
+        return "Key Not Found"
+    
+    def __delitem__(self,key):
+        index = self.GetIndex(key)
+        
+        if self.hashlist[index]:
+            subList = self.hashlist[index]
+            for i,pairs in enumerate(subList): 
+                if pairs[0]==key:
+                    del subList[index][i]
+                    return
+                
+        return "Key Not Found"
+                
+                
+       
+dictionary = Hashmap()
+dictionary["Name"] = "Yaswanth"
+dictionary["Age"] = 20
+print(dictionary.hashlist)
